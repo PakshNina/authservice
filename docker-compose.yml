@@ -6,7 +6,6 @@ services:
       context: ./docker/db/
     volumes:
       - auth-db-data:/var/lib/postgresql/data
-      - auth-db-logs:/var/log/postgresql
     command:
       - "postgres"
       - "-c"
@@ -28,6 +27,4 @@ services:
 
 volumes:
   auth-db-data:
-    external: false
-  auth-db-logs:
     external: false
