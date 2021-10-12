@@ -1,0 +1,33 @@
+services:
+  db:
+    restart: unless-stopped
+    image: ${NEXUS_REGISTRY:-tms-lite}/db:${BUILD_NUMBER:-latest}
+    build:
+      context: ./docker/db/
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+      - auth-db-logs:/var/log/postgresql
+    command:
+      - "postgres"
+      - "-c"
+      - "log_destination=stderr"
+      - "-c"
+      - "logging_collector=1"
+      - "-c"
+      - "log_min_duration_statement=2000"
+      - "-c"
+      - "shared_buffers=512MB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "max_connections=200"
+      - "-c"
+      - "log_directory=/var/log/postgresql"
+    ports:
+      - '8432:5432'
+
+volumes:
+  auth-db-data:
+    external: false
+  auth-db-logs:
+    external: false
