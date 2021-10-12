@@ -25,10 +25,8 @@ func main() {
 		log.Fatalf("failed to connect to db: %v", dbConnErr)
 	}
 	userRepository := repository.NewUserObjectRepository(dbConn)
-	creationErr := userRepository.CreateUser(*username, *password)
-	if creationErr != nil {
-		log.Printf("%s", creationErr)
-	}
+	// Create user to make sure it will work
+	userRepository.CreateUser(*username, *password)
 	connection, connErr := grpc.Dial("127.0.0.1:8888", grpc.WithInsecure())
 	if connErr != nil {
 		log.Fatalf("Error: %v", connErr)

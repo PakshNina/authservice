@@ -32,3 +32,6 @@ testclient: ## Build and run client. Run with arguments: make testclient usernam
 	go build -o bin/client cmd/testclient/main.go
 	bin/client -username $(username) -password $(password)
 
+.PHONY: test
+test:
+	go test ./...
