@@ -1,7 +1,7 @@
 services:
   db:
     restart: unless-stopped
-    image: auth-db/db:${BUILD_NUMBER:-latest}
+    image: auth-db
     build:
       context: ./docker/db/
     volumes:
