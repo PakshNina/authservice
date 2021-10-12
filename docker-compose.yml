@@ -1,7 +1,7 @@
 services:
   db:
     restart: unless-stopped
-    image: ${NEXUS_REGISTRY:-tms-lite}/db:${BUILD_NUMBER:-latest}
+    image: auth-db/db:${BUILD_NUMBER:-latest}
     build:
       context: ./docker/db/
     volumes:
