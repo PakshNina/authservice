@@ -1,29 +1,13 @@
 services:
   db:
-    restart: unless-stopped
-    image: auth-db
+    image: postgres
+    restart: always
     build:
       context: ./docker/db/
-    volumes:
-      - auth-db-data:/var/lib/postgresql/data
-    command:
-      - "postgres"
-      - "-c"
-      - "log_destination=stderr"
-      - "-c"
-      - "logging_collector=1"
-      - "-c"
-      - "log_min_duration_statement=2000"
-      - "-c"
-      - "shared_buffers=512MB"
-      - "-c"
-      - "work_mem=16MB"
-      - "-c"
-      - "max_connections=200"
-      - "-c"
-      - "log_directory=/var/log/postgresql"
     ports:
       - '8432:5432'
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
 
 volumes:
   auth-db-data:
