@@ -1,6 +1,7 @@
 ## Authserver
 
 #### How to run server
+- install go, set GOROOT, GOPATH, install [migrate](https://github.com/golang-migrate/migrate), protoc-gen-go, protoc-gen-go-grpc
 - Create .env file from .env.example
 - Create db:
 ```shell script
