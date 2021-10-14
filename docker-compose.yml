@@ -4,6 +4,7 @@ services:
   db:
     image: postgres
     restart: always
+    env_file: .env
     build:
       context: ./docker/db/
     ports:

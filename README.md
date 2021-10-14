@@ -1,17 +1,22 @@
 ## Authserver
 
 #### How to run server
-- Create db
+- Create .env file from .env.example
+- Create db:
 ```shell script
-make db
+make first
 ```
-- Run server
+- Apply migrations:
+```shell script
+make m_up
+```
+- Run server:
 ```shell script
 make server
 ```
 
 #### Test client
-Run in second terminal
+Run client in second terminal with test credentials 'user' & 'P@ssword':
 ```shell script
 make testclient username=user password=P@ssword
 ```

@@ -1,22 +1,15 @@
-ROOT=`pwd`
-export DB_HOST := 127.0.0.1
-export DB_USER := auth
-export DB_PASSWORD := P@ssword
-export DB_NAME := authdb
-export DB_PORT := 8432
-export ACCESS_SECRET := MySecret
-export SERVER_ADDRESS := 127.0.0.1:8888
-export PATH := $(PATH):$(GOPATH)/bin
+include .env
+export
 
-.PHONY: db
-db: ## Build db in docker.
+.PHONY: first
+first: ## Build db in docker.
 	docker-compose build
 	docker-compose up -d
 
 .PHONY: compile
 compile: ## Compile the proto file.
+	export PATH=$(PATH):$(GOPATH)/bin
 	protoc --go_out=pkg/pb --go-grpc_out=pkg/pb --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative proto/messages.proto
-
 
 .PHONY: server
 server: ## Build and run server.
@@ -26,12 +19,20 @@ server: ## Build and run server.
 
 
 .PHONY: testclient
-testclient: ## Build and run client. Run with arguments: make testclient username=user password=P@ssword
+testclient:  ## Build and run client. Run with arguments: make testclient username=user password=P@ssword
 	cd cmd/authservice
 	pwd
 	go build -o bin/client cmd/testclient/main.go
 	bin/client -username $(username) -password $(password)
 
-.PHONY: test
+.PHONY: test  ## Run tests
 test:
 	go test ./...
+
+.PHONY: m_create  ## Create migration with name
+m_create:
+	migrate create -ext sql -dir db/migrations -seq $(name)
+
+.PHONY: m_up  ## Apply migrations
+m_up:
+	migrate -source file://db/migrations -database postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/authdb?sslmode=disable up
